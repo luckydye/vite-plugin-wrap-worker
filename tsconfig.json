@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"target": "ES2018",
+		"module": "ESNext",
+		"strict": true,
+		"moduleResolution": "node",
+		"noImplicitAny": true,
+		"allowSyntheticDefaultImports": true,
+		"experimentalDecorators": true,
+		"useDefineForClassFields": false
+	}
+}
