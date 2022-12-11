@@ -1,5 +1,5 @@
 {
-	"name": "vite-wrap-worker",
+	"name": "@luckydye/vite-wrap-worker",
 	"version": "0.0.0",
 	"description": "",
 	"main": "./wrap-workers.ts",
