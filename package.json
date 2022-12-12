@@ -2,12 +2,20 @@
 	"name": "@luckydye/vite-wrap-worker",
 	"version": "0.0.0",
 	"description": "",
-	"main": "./wrap-workers.ts",
-	"module": "./wrap-workers.ts",
-	"types": "./wrap-workers.ts",
+	"main": "./wrap-worker.ts",
+	"module": "./wrap-worker.ts",
+	"types": "./wrap-worker.ts",
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
-	"devDependencies": {},
-	"dependencies": {}
+	"scripts": {
+		"dev": "vite test"
+	},
+	"dependencies": {
+		"comlink": "^4.3.1"
+	},
+	"devDependencies": {
+		"@types/node": "^18.11.13",
+		"vite": "^4.0.0"
+	}
 }
