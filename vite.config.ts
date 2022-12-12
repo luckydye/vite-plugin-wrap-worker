@@ -6,7 +6,7 @@ export default defineConfig({
     outDir: "lib",
     lib: {
       entry: "wrap-worker.ts",
-      formats: ["es"],
+      formats: ["cjs"],
     },
     emptyOutDir: true,
   },
