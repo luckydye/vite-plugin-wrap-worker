@@ -16,17 +16,17 @@ import wrapWorker from "@luckydye/vite-wrap-worker";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-	base: "",
-	plugins: [wrapWorker()],
+  base: "",
+  plugins: [wrapWorker()],
 });
 ```
 
 ```typescript
 // Process.worker.ts
 export default {
-	work() {
-		console.log("done", globalThis);
-	},
+  work() {
+    console.log("done", globalThis);
+  },
 };
 ```
 
