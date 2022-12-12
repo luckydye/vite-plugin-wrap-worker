@@ -13,8 +13,7 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           node-version: 18
-      - run: pnpm ci
-      - run: pnpm lint
+      - run: pnpm i
       - run: pnpm test
 
   publish-to-npm:
@@ -27,8 +26,10 @@ jobs:
           node-version: 18
           registry-url: https://registry.npmjs.org/
       - uses: pnpm/action-setup@v2
-      - run: pnpm ci
+        with:
+          version: 7.14.0
+      - run: pnpm i
       - run: pnpm build
-      - run: pnpm publish --public
+      - run: pnpm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
