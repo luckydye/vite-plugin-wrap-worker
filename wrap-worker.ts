@@ -1,42 +1,26 @@
-function isWorker(path: string) {
-  if (path && path.match(/\.worker/g)) {
-    return true;
-  } else if (path === undefined) {
-    return true;
-  }
-  return false;
-}
-
-export default function wrapWorker() {
-  const stack: string[] = [];
-
+function wrapWorker() {
   return {
     name: "wrap-workers",
+    filename: "",
 
     transform(src: string, id: string) {
       let code = src;
 
-      if (!id.match("node_modules")) {
-        stack.unshift(id);
-
-        const prev_file = stack[1];
-
-        if (!isWorker(prev_file) && isWorker(id)) {
+      if (this.filename.match(/\.worker/g)) {
+        if (this.filename.match(/\&worker_file/g)) {
+          // imported on main trhead
+          code = `
+            import * as Comlink from "comlink";
+            ${code.replace("export default", "export const mod = ")}
+            Comlink.expose(mod);
+          `;
+        } else {
+          // inside worker
           code = `
             import * as Comlink from "comlink";
             const worker = new Worker(new URL("${id}", import.meta.url), { type: "module" });
             export default Comlink.wrap(worker);
           `;
-        } else {
-          if (isWorker(id)) {
-            code = `
-              import * as Comlink from "comlink";
-              ${code.replace("export default", "export const mod = ")}
-              Comlink.expose(mod);
-            `;
-
-            console.log(id, code);
-          }
         }
       }
 
