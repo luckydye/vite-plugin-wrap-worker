@@ -1,21 +1,24 @@
 {
-	"name": "@luckydye/vite-wrap-worker",
-	"version": "0.0.1",
-	"description": "",
-	"main": "./wrap-worker.ts",
-	"module": "./wrap-worker.ts",
-	"types": "./wrap-worker.ts",
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"scripts": {
-		"dev": "vite test"
-	},
-	"dependencies": {
-		"comlink": "^4.3.1"
-	},
-	"devDependencies": {
-		"@types/node": "^18.11.13",
-		"vite": "^4.0.0"
-	}
+  "name": "@luckydye/vite-wrap-worker",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./lib/vite-wrap-worker.mjs",
+  "module": "./lib/vite-wrap-worker.mjs",
+  "types": "./wrap-worker.ts",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "test": "echo no tests defined",
+    "build": "vite build",
+    "lint": "eslint --ext .js,.ts .",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
+  },
+  "dependencies": {
+    "comlink": "^4.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.13",
+    "vite": "^4.0.0"
+  }
 }
