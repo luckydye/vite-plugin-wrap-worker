@@ -1,6 +1,6 @@
 {
 	"name": "@luckydye/vite-wrap-worker",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "",
 	"main": "./wrap-worker.ts",
 	"module": "./wrap-worker.ts",
