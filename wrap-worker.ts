@@ -1,4 +1,4 @@
-function wrapWorker() {
+export default function wrapWorker() {
   return {
     name: "wrap-workers",
     filename: "",
