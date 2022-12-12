@@ -2,9 +2,9 @@
 
 > Use workers without thinking about using workers.
 
-## How
+Using Workers is not easy enough. This vite plugin makes it as easy, as just importing your module you want to run off thread and it just works. (On the condition the file has a '.worker.ts' extension.)
 
-Using Workers is not always easy to think with. This vite plugin makes it as easy as just importing your module you wont to run off thread and it just works. (On the condition the file has a '.worker.ts' extension.)
+## How
 
 It transform your importetd file to wrap around a [Comlink](https://github.com/GoogleChromeLabs/comlink) Proxy, without braking any types.
 
