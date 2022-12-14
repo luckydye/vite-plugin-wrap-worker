@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import crypto from "node:crypto";
 
 export default function wrapWorker(options = {}) {
   let config: any;
