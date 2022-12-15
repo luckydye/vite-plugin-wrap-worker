@@ -1,6 +1,8 @@
 # vite-wrap-worker
 
-> Use workers without thinking about using workers.
+*This is an experimental plugin, not intended for production.*
+
+Use workers without thinking about using workers.
 
 ## How
 
