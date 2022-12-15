@@ -1,6 +1,10 @@
 import crypto from "node:crypto";
 
-export default function wrapWorker(options = {}) {
+interface WrapWorkerOptions {
+  experimental: boolean;
+}
+
+export default function wrapWorker({ experimental }: WrapWorkerOptions = { experimental: false }) {
   let config: any;
 
   const workerSource: Map<string, string> = new Map();
@@ -10,11 +14,52 @@ export default function wrapWorker(options = {}) {
   const workerFileRegex = /\.worker/g;
 
   function importWorkerSource(url: string) {
-    return `
-      import * as Comlink from "comlink";
-      const worker = new Worker("${url}", { type: "module" });
-      export default Comlink.wrap(worker);
-    `;
+    if (experimental) {
+      return `
+        import * as Comlink from "comlink";
+  
+        let __mod__ = null;
+  
+        {
+          const maxWorkerCount = [];
+          const workerPool = [];
+  
+          function spawnWorker() {
+            const worker = new Worker("${url}", { type: "module" });
+            return Comlink.wrap(worker);
+          }
+  
+          function requestWorker() {
+            if(workerPool.length === 0) {
+              workerPool.push(spawnWorker());
+            }
+            return workerPool[0]; 
+          }
+  
+          const __mod_handler__ = {
+            get(target, prop, receiver) {
+              target = requestWorker();
+              return target[prop];
+            },
+            set(target, prop, value) {
+              target = requestWorker();
+              target[prop] = value;
+              return true;
+            }
+          }
+  
+          __mod__ = new Proxy({}, __mod_handler__);
+        }
+  
+        export default __mod__;
+      `;
+    } else {
+      return `
+        import * as Comlink from "comlink";
+        const worker = new Worker("${url}", { type: "module" });
+        export default Comlink.wrap(worker);
+      `;
+    }
   }
 
   function wrapWorkerSource(code: string) {
