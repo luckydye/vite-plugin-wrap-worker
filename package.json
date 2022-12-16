@@ -9,8 +9,8 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "test": "echo no tests defined",
     "build": "vite build",
+    "build:w": "vite build --watch",
     "lint": "eslint --ext .js,.ts .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
   },

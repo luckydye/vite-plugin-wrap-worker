@@ -21,34 +21,48 @@ export default function wrapWorker({ experimental }: WrapWorkerOptions = { exper
         let __mod__ = null;
   
         {
-          const maxWorkerCount = [];
           const workerPool = [];
   
           function spawnWorker() {
             const worker = new Worker("${url}", { type: "module" });
-            return Comlink.wrap(worker);
+            return Comlink.wrap(worker)
           }
   
           function requestWorker() {
             if(workerPool.length === 0) {
-              workerPool.push(spawnWorker());
+              workerPool.unshift(spawnWorker());
             }
-            return workerPool[0]; 
+            return workerPool[0];
+          }
+
+          function createProxy() {
+            const proxyHandler = {
+              get(target, prop, receiver) {
+                target = requestWorker();
+  
+                if(prop === "terminate") {
+                  // cant manage pools here, since i dont know when a worker closed
+                  // therefore waiting for a terminate message from the outside.
+                  workerPool.pop();
+                }
+  
+                if(prop === "spawn") {
+                  // create new proxy and return that.
+                }
+  
+                return target[prop];
+              },
+              set(target, prop, value) {
+                target = requestWorker();
+                target[prop] = value;
+                return true;
+              }
+            }
+
+            return new Proxy({}, proxyHandler);
           }
   
-          const __mod_handler__ = {
-            get(target, prop, receiver) {
-              target = requestWorker();
-              return target[prop];
-            },
-            set(target, prop, value) {
-              target = requestWorker();
-              target[prop] = value;
-              return true;
-            }
-          }
-  
-          __mod__ = new Proxy({}, __mod_handler__);
+          __mod__ = createProxy();
         }
   
         export default __mod__;
