@@ -1,5 +1,5 @@
 {
-  "name": "@luckydye/vite-wrap-worker",
+  "name": "@atrium-ui/vite-wrap-worker",
   "version": "0.1.4",
   "description": "",
   "main": "./lib/vite-wrap-worker.js",
