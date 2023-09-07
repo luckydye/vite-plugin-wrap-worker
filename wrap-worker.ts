@@ -1,4 +1,5 @@
 import crypto from "node:crypto";
+import path from "path";
 
 interface WrapWorkerOptions {
   experimental: boolean;
@@ -17,17 +18,17 @@ export default function wrapWorker({ experimental }: WrapWorkerOptions = { exper
     if (experimental) {
       return `
         import * as Comlink from "comlink";
-  
+
         let __mod__ = null;
-  
+
         {
           const workerPool = [];
-  
+
           function spawnWorker() {
             const worker = new Worker("${url}", { type: "module" });
             return Comlink.wrap(worker)
           }
-  
+
           function requestWorker() {
             if(workerPool.length === 0) {
               workerPool.unshift(spawnWorker());
@@ -39,17 +40,17 @@ export default function wrapWorker({ experimental }: WrapWorkerOptions = { exper
             const proxyHandler = {
               get(target, prop, receiver) {
                 target = requestWorker();
-  
+
                 if(prop === "terminate") {
                   // cant manage pools here, since i dont know when a worker closed
                   // therefore waiting for a terminate message from the outside.
                   workerPool.pop();
                 }
-  
+
                 if(prop === "spawn") {
                   // create new proxy and return that.
                 }
-  
+
                 return target[prop];
               },
               set(target, prop, value) {
@@ -61,10 +62,10 @@ export default function wrapWorker({ experimental }: WrapWorkerOptions = { exper
 
             return new Proxy({}, proxyHandler);
           }
-  
+
           __mod__ = createProxy();
         }
-  
+
         export default __mod__;
       `;
     } else {
@@ -132,7 +133,7 @@ export default function wrapWorker({ experimental }: WrapWorkerOptions = { exper
           if (config.command === "serve") {
             url = id + "?worker=" + workerId;
           } else {
-            const name = id.split("/").pop()?.split(".")[0];
+            const name = id.split(path.sep).pop()?.split(".")[0];
             const fileName = `assets/${name}-${hash}.js`;
 
             this.emitFile({
