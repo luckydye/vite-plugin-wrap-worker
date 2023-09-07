@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-wrap-worker",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "",
   "main": "./lib/vite-plugin-wrap-worker.js",
   "module": "./lib/vite-plugin-wrap-worker.js",
