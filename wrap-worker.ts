@@ -1,5 +1,5 @@
 import crypto from "node:crypto";
-import path from "path";
+import { resolve, normalize, relative, sep } from "node:path";
 
 interface WrapWorkerOptions {
   experimental: boolean;
@@ -131,9 +131,9 @@ export default function wrapWorker({ experimental }: WrapWorkerOptions = { exper
           let url;
 
           if (config.command === "serve") {
-            url = id + "?worker=" + workerId;
+            url = "/@fs/" + id.replace(/\\/g, "/") + "?worker=" + workerId;
           } else {
-            const name = id.split(path.sep).pop()?.split(".")[0];
+            const name = id.split(sep).pop()?.split(".")[0];
             const fileName = `assets/${name}-${hash}.js`;
 
             this.emitFile({

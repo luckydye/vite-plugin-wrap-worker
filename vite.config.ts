@@ -3,7 +3,6 @@ import { defineConfig } from "vite";
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
-    target: "esnext",
     minify: false,
     outDir: "lib",
     lib: {
@@ -12,7 +11,7 @@ export default defineConfig({
     },
     emptyOutDir: true,
     rollupOptions: {
-      external: ["node:crypto"],
+      external: ["node:crypto", "node:path"],
     },
   },
 });
